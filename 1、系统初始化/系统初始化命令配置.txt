@@ -1,0 +1,23 @@
+[y]
+name=y
+baseurl=file:///media
+gpgcheck=0
+
+
+
+sed -i  '/^SELINUX/s/enforcing/disabled/g' /etc/selinux/config
+systemctl   stop   NetworkManager
+systemctl   disable NetworkManager
+echo  "/dev/cdrom   /media 		iso9660 defaults   0  0" >> /etc/fstab
+sed -i  '/UseDNS/s/yes/no/'  /etc/ssh/sshd_config
+sed -i  '/UseDNS/s/#//'  /etc/ssh/sshd_config
+sed -i  '/^GSS/s/yes/no/g'  /etc/ssh/sshd_config
+systemctl  restart  sshd 
+systemctl  enable  sshd 
+systemctl   stop   firewalld.service
+systemctl   disable  firewalld.service
+systemctl stop iptables
+systemctl disable iptables
+systemctl set-default multi-user.target
+
+
